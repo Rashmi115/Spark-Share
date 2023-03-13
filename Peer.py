@@ -56,7 +56,7 @@ class Peer:
         return var
 
     
-    def sendFile(self,conn,addr):
+    def send_file(self,conn,addr):
         try:
             fileName = conn.recv(MAX_CHUNK)
             fileName = pickle.loads(fileName)
@@ -97,7 +97,7 @@ class Peer:
                 print("Connected with "+str(addr[0])+" Port: "+str(addr[1]))
         
                 try:                
-                    Thread(target=self.sendFile,args=(conn,addr)).start()  
+                    Thread(target=self.send_file,args=(conn,addr)).start()  
                 except:
                     print("Thread did not start")
                     traceback.print_exc()
