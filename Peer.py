@@ -125,7 +125,7 @@ class Peer:
         else:
             return False
 
-    def Search(self,filename):
+    def search_file(self,filename):
         self.SERV.send(pickle.dumps("SEARCH"))
         var=False
         data = self.SERV.recv(MAX_CHUNK)
@@ -156,7 +156,7 @@ class Peer:
         return var
 
 
-    def Quit(self):
+    def quit_all(self):
         self.SERV.send(pickle.dumps("BYE"))
         if (pickle.loads(self.SERV.recv(MAX_CHUNK)) == "OK"):
                 self.SERV.close()
@@ -187,11 +187,11 @@ while True:
 
         elif choice == 2:
                 fileName=input("Enter the file name to search:")
-                result=myPeer.Search(fileName)
+                result=myPeer.search_file(fileName)
                 if result:
                     print("Search and Download Successful")
                 else:
                     print("Search and Download Failed")
 
         elif choice == 3:
-                myPeer.Quit()
+                myPeer.quit_all()
