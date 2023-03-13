@@ -10,7 +10,7 @@ class Peer:
         self.serv_host=serv_host
         self.serv_port=serv_port
         print(self.serv_host,self.serv_port)
-        self.maxConnection=max_conn
+        self.max_connection=max_conn
         try:
             self.SERV.connect((self.serv_host,self.serv_port))
         except(ConnectionRefusedError):
@@ -90,7 +90,7 @@ class Peer:
             self.soc.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
             self.HOST=socket.gethostbyname(socket.gethostname())
             self.soc.bind((self.HOST,self.PORT))
-            self.soc.listen(self.maxConnection)
+            self.soc.listen(self.max_connection)
     
             while True:
                 conn,addr = self.soc.accept()
