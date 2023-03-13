@@ -171,7 +171,7 @@ print(addr)
 myPeer = Peer(addr[0],int(addr[1]),5)
 while True:
         choice= int(input("\nEnter your choice:\n1. Register and Seed\n2. Search and Download\n3. Quit\n"))
-        if choice is 1:
+        if choice == 1:
             fileName=input("Enter the name of your file:\n")
             try:
                 file = open(fileName,'r')
@@ -185,7 +185,7 @@ while True:
                 else:
                     print("Registration Failed")
 
-        elif choice is 2:
+        elif choice == 2:
                 fileName=input("Enter the file name to search:")
                 result=myPeer.Search(fileName)
                 if result:
@@ -193,5 +193,5 @@ while True:
                 else:
                     print("Search and Download Failed")
 
-        elif choice is 3:
+        elif choice == 3:
                 myPeer.Quit()
