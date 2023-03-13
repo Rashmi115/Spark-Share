@@ -4,15 +4,15 @@ from threading import *
 MAX_CHUNK = 8*1024
 
 class Peer:
-    def __init__(self,SERV_HOST,SERV_PORT,maxConn):
+    def __init__(self,serv_host,serv_port,maxConn):
         self.SERV=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.SERV.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-        self.SERV_HOST=SERV_HOST
-        self.SERV_PORT=SERV_PORT
-        print(self.SERV_HOST,self.SERV_PORT)
+        self.serv_host=serv_host
+        self.serv_port=serv_port
+        print(self.serv_host,self.serv_port)
         self.maxConnection=maxConn
         try:
-            self.SERV.connect((self.SERV_HOST,self.SERV_PORT))
+            self.SERV.connect((self.serv_host,self.serv_port))
         except(ConnectionRefusedError):
             print("\nFailed to establish connection with central server\n")
             sys.exit()
@@ -125,7 +125,7 @@ class Peer:
         else:
             return False
 
-    def search_file(self,filename):
+    def search_file(self,fileName):
         self.SERV.send(pickle.dumps("SEARCH"))
         var=False
         data = self.SERV.recv(MAX_CHUNK)
@@ -179,7 +179,7 @@ while True:
                 print("File does not exist in the given directory\n")
             else:
                 file.close()
-                var = myPeer.Register(fileName)
+                var = myPeer.register(fileName)
                 if var:
                     print("Registration Successful")
                 else:
