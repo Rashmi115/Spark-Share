@@ -27,7 +27,7 @@ class CentralServer:
             else:
                 x=False
 
-        self.file_fist={} #List of Files registered
+        self.file_list={} #List of Files registered
         self.Peer_List={} #List of Peers connected
 
         print("Listen through (",self.host,":",self.port,")")
@@ -48,7 +48,7 @@ class CentralServer:
             conn.send(pickle.dumps("OK"))
             file_name = pickle.loads(conn.recv(MAX_CHUNK))
 
-            if file_name not in self.File_List:
+            if file_name not in self.file_list:
                 conn.send(pickle.dumps("NOT FOUND"))
                 
             else:
@@ -56,7 +56,7 @@ class CentralServer:
                 reply=pickle.loads(conn.recv(MAX_CHUNK))
 
                 if (reply =="SEND"):
-                    list = pickle.dumps(self.file_fist[file_name])
+                    list = pickle.dumps(self.file_list[file_name])
                     conn.send(list)
                     
                     c_peer = pickle.loads(conn.recv(MAX_CHUNK))
@@ -70,11 +70,11 @@ class CentralServer:
             file_name = pickle.loads(conn.recv(MAX_CHUNK))
             print(file_name)
 
-            if file_name in self.file_fist:
-                self.file_fist[file_name].append(uniq_id)                
+            if file_name in self.file_list:
+                self.file_list[file_name].append(uniq_id)                
             else:
-                self.file_fist[file_name] = []
-                self.file_fist[file_name].append(uniq_id)
+                self.file_list[file_name] = []
+                self.file_list[file_name].append(uniq_id)
             conn.send(pickle.dumps("SUCCESS"))
         
         elif (cmd=="BYE"):
@@ -83,15 +83,15 @@ class CentralServer:
 
             a=[]    #list of files with no peers 
             #to delete peer from the list
-            for i in self.file_fist:
+            for i in self.file_list:
                 try:
-                    self.file_fist[i].remove(uniq_id)
+                    self.file_list[i].remove(uniq_id)
                     if self.file_fist[i]==[]:
                         a.append(i)
                 except ValueError:
                     continue
             for i in a:
-                self.file_fist.pop(i)
+                self.file_list.pop(i)
 
             del Peer_List[uniq_id]
 
