@@ -125,12 +125,12 @@ class Peer:
         else:
             return False
 
-    def search_file(self,fileName):
+    def search_file(self,file_name):
         self.SERV.send(pickle.dumps("SEARCH"))
         var=False
         data = self.SERV.recv(MAX_CHUNK)
         if (pickle.loads(data) == "OK"):
-            self.SERV.send(pickle.dumps(fileName))
+            self.SERV.send(pickle.dumps(file_name))
             data=self.SERV.recv(MAX_CHUNK)
             if (pickle.loads(data) == "FOUND"):
                 proc=input("\nFile Found\nProceed to download (Y/N)\n")
@@ -146,7 +146,7 @@ class Peer:
                         choice=int(input("Enter choice of peer:"))
                         self.SERV.send(pickle.dumps(data[choice-1]))
                     addr=pickle.loads(self.SERV.recv(MAX_CHUNK))
-                    var = self.download(addr,fileName)
+                    var = self.download(addr,file_name)
                 elif (proc.upper() == 'N'):
                     self.SERV.send(pickle.dumps("N"))
                     var = False
