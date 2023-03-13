@@ -97,7 +97,6 @@ class CentralServer:
 
             
     def listen(self):
-        threadId=[]
         self.sock.listen(self.max_connections)
         print("Listening...")
 
