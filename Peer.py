@@ -4,13 +4,13 @@ from threading import *
 MAX_CHUNK = 8*1024
 
 class Peer:
-    def __init__(self,serv_host,serv_port,maxConn):
+    def __init__(self,serv_host,serv_port,max_conn):
         self.SERV=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.SERV.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
         self.serv_host=serv_host
         self.serv_port=serv_port
         print(self.serv_host,self.serv_port)
-        self.maxConnection=maxConn
+        self.maxConnection=max_conn
         try:
             self.SERV.connect((self.serv_host,self.serv_port))
         except(ConnectionRefusedError):
@@ -25,7 +25,7 @@ class Peer:
             print("\nConnection Established\nPeer ID: ",msg[0],"\n")
             self.PORT=msg[1]            
 
-    def Download(self,addr,fileName):
+    def download(self,addr,fileName):
         try:                
             self.soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.soc.connect(addr)
@@ -146,7 +146,7 @@ class Peer:
                         choice=int(input("Enter choice of peer:"))
                         self.SERV.send(pickle.dumps(data[choice-1]))
                     addr=pickle.loads(self.SERV.recv(MAX_CHUNK))
-                    var = self.Download(addr,fileName)
+                    var = self.download(addr,fileName)
                 elif (proc.upper() == 'N'):
                     self.SERV.send(pickle.dumps("N"))
                     var = False
