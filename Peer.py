@@ -84,7 +84,7 @@ class Peer:
         else:
             return True
 
-    def Seed(self):
+    def seed(self):
         try:
             self.soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.soc.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
@@ -107,11 +107,11 @@ class Peer:
         
 
 
-    def Register(self,fileName):
+    def register(self,filename):
         self.SERV.send(pickle.dumps("REG"))
         data = pickle.loads(self.SERV.recv(MAX_CHUNK))
         if (data == "OK"):
-            self.SERV.send(pickle.dumps(fileName))
+            self.SERV.send(pickle.dumps(filename))
             data=pickle.loads(self.SERV.recv(MAX_CHUNK))
             if (data == "SUCCESS"):
                 proc=input("\nFile registered.\nProceed to Seed (Y/N)\n")
