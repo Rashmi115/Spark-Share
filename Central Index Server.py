@@ -7,7 +7,7 @@ PORT=12345
 MAX_CHUNK = 8* 1024
 
 
-class Central_Server:
+class CentralServer:
 
 
     def __init__(self,port,max_connections):
@@ -122,6 +122,6 @@ class Central_Server:
     
 
 if __name__=="__main__":
-    S=Central_Server(PORT,5)
+    S=CentralServer(PORT,5)
     S.listen()
 
