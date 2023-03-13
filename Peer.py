@@ -25,16 +25,16 @@ class Peer:
             print("\nConnection Established\nPeer ID: ",msg[0],"\n")
             self.PORT=msg[1]            
 
-    def download(self,addr,fileName):
+    def download(self,addr,file_name):
         try:                
             self.soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.soc.connect(addr)
-            self.soc.send(pickle.dumps(fileName))
+            self.soc.send(pickle.dumps(file_name))
             msg= pickle.loads(self.soc.recv(MAX_CHUNK))
             var = False
             if msg == "FILEFOUND":
                 self.soc.send(pickle.dumps("SND"))
-                file = open('D:\\download\\'+fileName,'wb')
+                file = open('D:\\download\\'+file_name,'wb')
                 data = self.soc.recv(MAX_CHUNK)
                 while True:
                     file.write(data)
@@ -58,9 +58,9 @@ class Peer:
     
     def send_file(self,conn,addr):
         try:
-            fileName = conn.recv(MAX_CHUNK)
-            fileName = pickle.loads(fileName)
-            file = open(fileName, 'rb')
+            file_name = conn.recv(MAX_CHUNK)
+            file_name = pickle.loads(file_name)
+            file = open(file_name, 'rb')
             msg= "FILEFOUND"
             conn.send(pickle.dumps(msg))
             ack = pickle.loads(conn.recv(MAX_CHUNK))
@@ -172,22 +172,22 @@ myPeer = Peer(addr[0],int(addr[1]),5)
 while True:
         choice= int(input("\nEnter your choice:\n1. Register and Seed\n2. Search and Download\n3. Quit\n"))
         if choice == 1:
-            fileName=input("Enter the name of your file:\n")
+            file_name=input("Enter the name of your file:\n")
             try:
-                file = open(fileName,'r')
+                file = open(file_name,'r')
             except(FileNotFoundError):
                 print("File does not exist in the given directory\n")
             else:
                 file.close()
-                var = myPeer.register(fileName)
+                var = myPeer.register(file_name)
                 if var:
                     print("Registration Successful")
                 else:
                     print("Registration Failed")
 
         elif choice == 2:
-                fileName=input("Enter the file name to search:")
-                result=myPeer.search_file(fileName)
+                file_name=input("Enter the file name to search:")
+                result=myPeer.search_file(file_name)
                 if result:
                     print("Search and Download Successful")
                 else:
