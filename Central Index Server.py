@@ -28,7 +28,7 @@ class CentralServer:
                 x=False
 
         self.file_list={} #List of Files registered
-        self.Peer_List={} #List of Peers connected
+        self.peer_list={} #List of Peers connected
 
         print("Listen through (",self.host,":",self.port,")")
 
@@ -37,7 +37,7 @@ class CentralServer:
 
         uniq_id = uuid.uuid4().int>>115 #Generates unique ID for each peer
         
-        self.Peer_List[uniq_id]=addr #Append to List of Peers
+        self.peer_list[uniq_id]=addr #Append to List of Peers
         conn.send(pickle.dumps((uniq_id,addr[1]))) #Send unique (peer_id,port) to peer
 
         
@@ -60,7 +60,7 @@ class CentralServer:
                     conn.send(list)
                     
                     c_peer = pickle.loads(conn.recv(MAX_CHUNK))
-                    conn.send(pickle.dumps(self.Peer_List[c_peer]))
+                    conn.send(pickle.dumps(self.peer_list[c_peer]))
                        
                 else:
                     """Do Nothing for Search and not downloading"""
@@ -93,7 +93,7 @@ class CentralServer:
             for i in a:
                 self.file_list.pop(i)
 
-            del Peer_List[uniq_id]
+            del peer_list[uniq_id]
 
             
     def listen(self):
