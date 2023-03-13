@@ -117,7 +117,7 @@ class Peer:
                 proc=input("\nFile registered.\nProceed to Seed (Y/N)\n")
                 if (proc.upper() == 'Y'):
                     print("Enabling Seeder mode:")
-                    self.Seed()
+                    self.seed()
                 else:
                     return True
             else:
